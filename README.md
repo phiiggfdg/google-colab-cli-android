@@ -37,15 +37,6 @@ Run compatibility tests:
 colab test
 ```
 
-Test each component separately:
-
-```bash
-colab test environment
-colab test notebook
-colab test models
-colab test kernel-codec
-```
-
 For a live Colab kernel test:
 
 ```bash
@@ -65,26 +56,34 @@ For `colab run` regression tests:
 bash integration/repro_run_command/test.sh
 ```
 
+For runtime-proxy refresh/recovery:
+
+```bash
+bash integration/repro_runtime_proxy_refresh/test.sh
+```
+
 ## Notes
 
 - Tested on Termux.
 - Python 3.14.
 - Live T4 GPU SSH access tested successfully.
 - `colab run` supports both Python scripts and `.ipynb` notebooks.
+- Runtime-proxy credentials are refreshed for long-lived sessions.
 - Existing upstream CLI behavior is preserved where possible.
 
 ## Update
 
 26/9/2026:
 
-- Previous version: `0.7.2.post0+android5.1`
-- Current version: `0.7.2.post0+android5.2`
+- Previous version: `0.7.2.post0+android5.2`
+- Current version: `0.7.2.post0+android5.3`
 
 ### Fixed
 
 - Fixed T4 GPU libraries not being visible inside SSH sessions.
-- Added live SSH validation for `nvidia-smi`, NVML and `libcuda`.
 - Fixed integration test execution on Termux/Python 3.14.
 - Added `.ipynb` support to `colab run`.
 - Preserved notebook cell state and saved executed notebook outputs.
-- Added regression coverage for Python scripts, notebooks and `--keep`.
+- Fixed stale runtime-proxy credentials in long-lived sessions.
+- Prevented live sessions from being pruned when runtime-proxy requests return stale 401/404 responses.
+- Added live recovery tests for file access and session credential refresh.
